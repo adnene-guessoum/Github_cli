@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "github-cli"
+version = "0.1.0"
+description = "python program to interact with Github and retrieve data"
+authors = ["Adnene_wsl <adnen.guessoum@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "github_cli"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
