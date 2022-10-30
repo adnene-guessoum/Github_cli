@@ -17,7 +17,15 @@ rich = "^12.6.0"
 [tool.poetry.group.dev.dependencies]
 flake8 = "^5.0.4"
 pylint = "^2.15.5"
+black = "^22.10.0"
+mypy = "^0.982"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.flake8]
+max-line-length = 100
+
+[tool.black]
+line-length=100
