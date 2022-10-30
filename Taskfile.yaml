@@ -11,11 +11,16 @@ tasks:
     desc: Lints the code and report issues.
     cmds:
       - poetry run mypy github_cli
-      - poetry run black --check github_cli
+      - poetry run black github_cli
       - poetry run flake8 github_cli --show-source --statistics --count
       - poetry run pylint github_cli
 
+  test:
+    desc: Runs test on code
+    cmds: 
+      - poetry run pytest
+
   build:
-      desc: Builds the puthon package
+      desc: Builds the python package
       cmds:
         - poetry build

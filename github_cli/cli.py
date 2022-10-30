@@ -1,6 +1,11 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup  # type: ignore
 import requests
-import rich
+
+# import rich
+
+
+def ex_func(example):
+    return example
 
 
 def get_num_stars(username: str, orgs: bool):
@@ -13,7 +18,7 @@ def get_num_stars(username: str, orgs: bool):
     """
     name = username
 
-    if orgs == False:
+    if orgs is False:
         gh_reqs = requests.get(f"https://github.com/{name}").text
         soup = BeautifulSoup(gh_reqs, "html.parser")
         num_stars = soup.select('a[data-tab-item="stars"] .Counter').get_text()
