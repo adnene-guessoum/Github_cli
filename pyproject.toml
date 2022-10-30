@@ -20,6 +20,7 @@ pylint = "^2.15.5"
 black = "^22.10.0"
 mypy = "^0.982"
 lice = "^0.6"
+twine = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core"]

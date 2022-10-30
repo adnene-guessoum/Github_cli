@@ -4,7 +4,7 @@ tasks:
   install:
     desc: Installs the dependencies.
     cmds:
-      - poetry install
+      - poetry install --no-root
 
   lint:
     desc: Lints the code and report issues.
@@ -13,3 +13,8 @@ tasks:
       - poetry run black --check github_cli
       - poetry run flake8 github_cli --show-source --statistics --count
       - poetry run pylint github_cli
+
+  build:
+      desc: Builds the puthon package
+      cmds:
+        - poetry build
