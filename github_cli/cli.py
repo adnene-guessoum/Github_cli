@@ -4,7 +4,6 @@ import rich
 from bs4 import BeautifulSoup  # type: ignore
 import requests
 
-
 def ex_func(example):
     return example
 
@@ -35,7 +34,7 @@ def count_stars(name, num_pages):
         soup = BeautifulSoup(gh_reqs, "html.parser")
 
         stars_string = [num.text.strip() for num in soup.find_all(href=re.compile("stargazers"))]
-       
+
         stars_int = [int(x.replace(",", "")) for x in stars_string]
 
         stars_per_repos.append(stars_int)
@@ -67,11 +66,32 @@ def get_num_stars(username: str, orgs: bool):
         number_of_pages = get_repo_number_pages(org_soup)
         num_stars = count_stars(name, number_of_pages)
         return num_stars
-    
-if __name__ == "__main__":
-    print("-"*80)
-    #rich.print(get_num_stars("codie3611", False))
-    print("-"*80)
-    rich.print(get_num_stars("facebook", True))
-    print("-"*80)
 
+def main():
+    """TODO: Docstring for main.
+
+    :arg1: TODO
+    :returns: TODO
+
+    """
+    name = input("Whose stars do you want to count ? ").lower()
+    text = input("Is the Github account owned by an organization ? (yes/no) ")
+
+    if (text.lower() == 'yes') or (text.lower() == 'y'):
+        orga = True
+        print("You asked for the number of stars of {name} (organization)")
+
+    elif (text.lower() == 'no') or (text.lower() == 'n'):
+        orga = False
+        print(f"You asked for the number of stars of {name} (github user)")
+
+    else:
+        print('Type yes or no')
+
+    print("-"*80)
+    rich.print(get_num_stars(name, orga), " stars in total (all repository). ")
+    print("-"*80)
+    rich.print("Impressive, isn't it ? Hope to see you soon :)")
+
+if __name__ == "__main__":
+    main() 
