@@ -14,8 +14,9 @@ def get_org_soup(name):
     return soup
 
 def get_repo_number_pages(soup):
-    num_pages = soup.find(attrs={"name":"data-total-pages"})
-    return int(num_pages)
+    num_pages_data = soup.select_one("em[data-total-pages]")['data-total-pages']
+    num_pages = int(num_pages_data) 
+    return num_pages
 
 def count_stars(name, num_pages):
     """Docstring for count_stars.
@@ -33,9 +34,9 @@ def count_stars(name, num_pages):
                 payload_pages).text
         soup = BeautifulSoup(gh_reqs, "html.parser")
 
-        stars_string = [num.text for num in soup.find_all(href=re.compile("stargazers"))]
+        stars_string = [num.text.strip() for num in soup.find_all(href=re.compile("stargazers"))]
        
-        stars_int = [int(x) for x in stars_strings]
+        stars_int = [int(x.replace(",", "")) for x in stars_string]
 
         stars_per_repos.append(stars_int)
 
@@ -68,9 +69,9 @@ def get_num_stars(username: str, orgs: bool):
         return num_stars
     
 if __name__ == "__main__":
-    print("-"*100)
-    rich.print(get_num_stars("codie3611", False))
-    print("-"*100)
+    print("-"*80)
+    #rich.print(get_num_stars("codie3611", False))
+    print("-"*80)
     rich.print(get_num_stars("facebook", True))
-    print("-"*100)
+    print("-"*80)
 
