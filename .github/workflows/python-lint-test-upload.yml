@@ -45,6 +45,11 @@ jobs:
         run: |
           ./bin/task install
 
+      - name: Install missing stub packages mypy 
+        run: |
+          poetry run mypy --install-types
+
+
           # Run our linting
       - name: Lint code
         run: |
