@@ -46,8 +46,12 @@ def get_repo_number_pages(soup):
     return:
         num_pages: int ; number of pages to inspect
     """
-    num_pages_tot = soup.select_one("em[data-total-pages]")["data-total-pages"]
-    num_pages = int(num_pages_tot)
+    num_pages_soup = soup.select_one("em[data-total-pages]")
+    if num_pages_soup is None:
+        num_pages = 1
+    else:
+        num_pages_tot = num_pages_soup["data-total-pages"]
+        num_pages = int(num_pages_tot)
     return num_pages
 
 

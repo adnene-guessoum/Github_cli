@@ -31,9 +31,17 @@ def test_org_get_repo_number_pages():
     assert isinstance(test_facebook, int)
 
 
-def test_org_get_num_stars():
+def test_big_org_get_num_stars():
     """
-    type check of return value
+    type check of return value for organization with mutiple pages
     """
     test_facebook = get_num_stars("facebook", True)
     assert isinstance(test_facebook, int)
+
+
+def test_small_org_get_num_stars():
+    """
+    type check of return value for organization with only one page
+    """
+    test_psf = get_num_stars("psf", True)
+    assert isinstance(test_psf, int)
