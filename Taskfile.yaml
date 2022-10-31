@@ -5,7 +5,6 @@ tasks:
     desc: Installs the dependencies.
     cmds:
       - poetry install --no-root
-      - poetry run pre-commit install
 
   lint:
     desc: Lints the code and report issues.
