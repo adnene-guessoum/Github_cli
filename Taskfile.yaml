@@ -17,7 +17,10 @@ tasks:
   test:
     desc: Runs test on code
     cmds: 
-      - poetry run pytest
+      - >
+        poetry run pytest
+        --cov=gh_star_count
+        --cov-report=html
 
   build:
       desc: Builds the python package
@@ -26,6 +29,8 @@ tasks:
 
   docs-serve:
     desc: Serve the documentation locally
+    deps:
+      - test
     cmds:
       - poetry run mkdocs serve
 

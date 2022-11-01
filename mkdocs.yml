@@ -1,5 +1,5 @@
 site_name: Github star count
-site_url: https://adnene-guessoum.github.io/deathstar/
+site_url: https://adnene-guessoum.github.io/Github_cli/
 
 theme:
   name: material
@@ -9,9 +9,11 @@ nav:
   - Quick-start: quick_start.md
   - FAQ: faq.md
   - Source Code: source_code.md
+  - Coverage Report: coverage.md
 
 plugins:
   - search
   - mkdocstrings
+  - coverage
 
 
