@@ -9,7 +9,7 @@ tasks:
   lint:
     desc: Lints the code and report issues.
     cmds:
-      - poetry run mypy gh_star_count
+      - poetry run mypy gh_star_count # --ignore-missing-imports
       - poetry run black gh_star_count
       - poetry run flake8 gh_star_count --show-source --statistics --count
       - poetry run pylint gh_star_count
