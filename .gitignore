@@ -1,6 +1,9 @@
 # vim swap files
 *.swp
 
+# Changelog generated for the documentation only
+CHANGELOG.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
