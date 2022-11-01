@@ -59,8 +59,7 @@ jobs:
   test-publish:
     needs: [build]
 
-    if: needs.build.result == 'success'
-      # startsWith(github.ref, 'refs/tags/')
+    if: needs.build.result == 'success' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
 
     outputs:
