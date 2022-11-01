@@ -1,0 +1,17 @@
+site_name: Github star count
+site_url: https://adnene-guessoum.github.io/deathstar/
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Quick-start: quick_start.md
+  - FAQ: faq.md
+  - Source Code: source_code.md
+
+plugins:
+  - search
+  - mkdocstrings
+
+
