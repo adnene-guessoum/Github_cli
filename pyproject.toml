@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "gh-star-count"
+name = "gh_star_count"
 version = "0.1.0"
 description = "python program to interact with Github and retrieve data"
 authors = ["Adnene_wsl <adnen.guessoum@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "gh-star-count"}]
+packages = [{include = "gh_star_count"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
