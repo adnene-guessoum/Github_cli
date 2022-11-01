@@ -115,23 +115,18 @@ def get_num_stars(username: str, orgs: bool):
     num_stars = count_stars(name, number_of_pages)
     return num_stars
 
-
-def main():
+def ask_prompt():
     """
-    prompt the user to give the name of the owner of the github account of
+    Prompt the user to give the name of the owner of the github account of
     interest and its status (organization or individual user)
-
-    display the total number of stars in a rich print in the console
-
-    returns: print statements
-
+    
     """
     name = input("Whose stars do you want to count ? ").lower()
     text = input("Is the Github account owned by an organization ? (yes/no) ")
 
     if (text.lower() == "yes") or (text.lower() == "y"):
         orga = True
-        print("You asked for the number of stars of {name} (organization)")
+        print(f"You asked for the number of stars of {name} (organization)")
 
     elif (text.lower() == "no") or (text.lower() == "n"):
         orga = False
@@ -140,6 +135,14 @@ def main():
     else:
         print("Type yes or no")
 
+    return name, orga
+
+def count(name: str , orga: bool):
+    """
+    display the total number of stars in a rich print in the console
+
+    returns: print statements
+    """
     print("-" * 80)
     rich.print(get_num_stars(name, orga), " stars in total (all repository). ")
     print("-" * 80)
@@ -147,4 +150,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    name_search, orga_status = ask_prompt()
+    count(name_search, orga_status)
