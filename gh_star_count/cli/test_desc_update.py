@@ -9,4 +9,4 @@ def test_get_current_user_auth():
     Unittest fetching user auth token in env
     """
     g_object = get_current_user_auth()
-    assert g_object.get_user() == None
+    assert g_object.get_user() is None
