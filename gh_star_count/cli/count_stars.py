@@ -1,4 +1,6 @@
 """
+NOT RIGHT APPROACH: use API. (leaving it here just for fun)
+
 Module that prompts user to indicate name and organization status for the
 owner of the github account used to count total amount of stars.
 

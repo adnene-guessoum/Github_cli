@@ -15,6 +15,10 @@ rich = "^12.6.0"
 types-requests = "^2.28.11.2"
 typer = {extras = ["all"], version = "^0.6.1"}
 pygithub = "^1.56"
+selenium = "^4.5.0"
+webdriver-manager = "^3.8.4"
+python-graphql-client = "^0.4.3"
+graphqlclient = "^0.2.4"
 
 
 [tool.poetry.group.dev.dependencies]
