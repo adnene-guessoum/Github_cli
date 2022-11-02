@@ -25,14 +25,18 @@ def update_user_bio(auth_user_obj: object):
     update user bio with star, heart and tea emoji 
     """
     default =  ":star: :gift_heart: :tea:"
-    print(f"default bio setting : {default}")
-    new_str = input("New bio for your account : ") or ":star: :gift_heart: :tea:"
+    print("-"*80)
+    print(f"default bio update : {default}")
+    new_str = input("New bio for your account : ") or default
     auth_user_obj.edit(bio = new_str)
 
-
-def update_user_status():
-
-if __name__ == "__main__":
+def main_update():
+    """
+    main function for the update bio module
+    """
     login = get_user_infos() 
     authorized_user = get_current_user_auth(login) 
     update_user_bio(authorized_user)
+
+if __name__ == "__main__":
+    main_update()
