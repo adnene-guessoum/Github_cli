@@ -2,9 +2,10 @@
 
 ## install:
 
-	- package available on pypi :
+	### package available on pypi :
 		- pip install gh-star-count
 
 ## See available commands:
 	
-	- run: python gh-star-count
+	### run: 
+		- python gh-star-count
