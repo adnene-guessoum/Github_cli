@@ -1,6 +1,15 @@
 # vim swap files
 *.swp
 
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
 # Changelog generated for the documentation only
 CHANGELOG.md
 
@@ -60,15 +69,6 @@ cover/
 # Translations
 *.mo
 *.pot
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
 # mkdocs documentation
 /site

@@ -31,24 +31,22 @@ def mutate_user_status(username: str, token: str):
     """
     user_status_message_prompt = (
         "What message should your github status display ?"
-        " (default : Drinking tea under the stars) : "
+        " (default : I'm a star!) : "
     )
 
-    message = (
-        input(user_status_message_prompt) or "Drinking Tea under the stars"
-    )
+    message = input(user_status_message_prompt) or "I'm a star!"
 
     emoji = (
         input(
             (
                 "What emoji should you set for your user status ?"
-                " default ':tea:'"
+                " default ':sunglasses:'"
                 "(for a complete list, you can visit: "
                 "https://dev.to/nikolab/complete-list-of-github-markdown"
                 "-emoji-markup-5aia ): "
             )
         )
-        or ":tea:"
+        or ":sunglasses:"
     )
 
     client = GraphQLClient("https://api.github.com/graphql")

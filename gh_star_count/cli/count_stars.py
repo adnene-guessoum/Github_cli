@@ -1,158 +1,70 @@
 """
-NOT RIGHT APPROACH: use API. (leaving it here just for fun)
-
-Module that prompts user to indicate name and organization status for the
-owner of the github account used to count total amount of stars.
-
-returns the total number of stars in the account in a rich display.
+Module retrieving user requested info about a github account
 """
-import re
-import rich
-
-from bs4 import BeautifulSoup  # type: ignore
 import requests
+import rich
+from github import Github
 
 
-def ex_func(example):
+def get_user_name_token():
     """
-    Useless function to test the tests
+    Prompt the user to give login info
+
+    Check API response for valid token
     """
-    return example
+    username = input("Your Github username : ")
+    token = input(
+        (
+            "Github account access token "
+            "(if you don't have one please visit:"
+            " https://github.com/settings/tokens) : "
+        )
+    )
 
+    response = requests.get('https://api.github.com', auth= ( username , token ))
 
-def get_org_soup(name):
-    """
-    Function used to define the correct path in the case of an organization
-    account
-
-    args:
-        name: str ; name of the organization
-    --------------
-    return:
-        soup: bs4.BeautifulSoup object; parsed HTML document
-    """
-    path = f"https://github.com/orgs/{name}/repositories"
-    gh_reqs = requests.get(path, timeout=10).text
-    soup = BeautifulSoup(gh_reqs, "html.parser")
-    return soup
-
-
-def get_repo_number_pages(soup):
-    """
-    Extract total number of pages in repositories section of profile page
-    of the queried github organization
-
-    args:
-        soup: BeautifulSoup object
-    -----------------
-    return:
-        num_pages: int ; number of pages to inspect
-    """
-    num_pages_soup = soup.select_one("em[data-total-pages]")
-    if num_pages_soup is None:
-        num_pages = 1
+    if response.status_code == requests.codes.ok :
+        return username, token
     else:
-        num_pages_tot = num_pages_soup["data-total-pages"]
-        num_pages = int(num_pages_tot)
-    return num_pages
+        raise Exception("Invalid token or username")
 
-
-def count_stars(name, num_pages):
+def create_github_instance(token:str):
     """
-    Count the stars per repos for every pages and return the sum
+    Instanciate github object for querying github
     """
-    stars_per_repos = []
+    gh_object = Github(token)
+    return gh_object
 
-    for i in range(1, num_pages + 1):
-        payload_pages = {"page": f"{i}"}
-
-        path = f"https://github.com/orgs/{name}/repositories"
-        gh_reqs = requests.get(path, payload_pages, timeout=10).text
-
-        soup = BeautifulSoup(gh_reqs, "html.parser")
-
-        stars_string = [
-            num.text.strip()
-            for num in soup.find_all(href=re.compile("stargazers"))
-        ]
-
-        stars_int = [int(x.replace(",", "")) for x in stars_string]
-
-        stars_per_repos.append(stars_int)
-
-    flat_stars_per_repos = [
-        item for sub_list in stars_per_repos for item in sub_list
-    ]
-
-    total_num_stars = sum(flat_stars_per_repos)
-
-    return total_num_stars
-
-
-def get_num_stars(username: str, orgs: bool):
+def get_target_starcount(gh_object):
     """
-    Get the number of stars for a github account
-
-    args:
-        username: str ; name of the owner of the account
-        orgs: bool ; if the owner is an organization
-    ____________________
-    Return:
-        num_stars: int ; total number of stars to display
+    Prompt user for github account of interest
     """
-    name = username
+    target_account = input(("Whose stars do you want to count ? "
+        "(target github username, including your own) : "))
+    total_stars = []
+    for repo in gh_object.get_user(target_account).get_repos():
+        number_stars_per_repo = repo.stargazers_count
+        total_stars.append(number_stars_per_repo) 
+        
+    total = sum(total_stars)
+    return total, target_account
 
-    if orgs is False:
-        gh_reqs = requests.get(f"https://github.com/{name}", timeout=10).text
-
-        soup = BeautifulSoup(gh_reqs, "html.parser")
-
-        num_stars_data = soup.select_one('a[data-tab-item="stars"] .Counter')
-        num_stars = num_stars_data.get_text()
-
-        return int(num_stars)
-
-    org_soup = get_org_soup(name)
-    number_of_pages = get_repo_number_pages(org_soup)
-    num_stars = count_stars(name, number_of_pages)
-    return num_stars
-
-
-def ask_prompt():
+def main_starcount():
     """
-    Prompt the user to give the name of the owner of the github account of
-    interest and its status (organization or individual user)
-
+    main function for total star count of a target user
     """
-    name = input("Whose stars do you want to count ? ").lower()
-    text = input("Is the Github account owned by an organization ? (yes/no) ")
+    username, token = get_user_name_token()
+    gh_instance = create_github_instance(token)
+    total_starcount, target_account = get_target_starcount(gh_instance)
 
-    if (text.lower() == "yes") or (text.lower() == "y"):
-        orga = True
-        print(f"You asked for the number of stars of {name} (organization)")
-
-    elif (text.lower() == "no") or (text.lower() == "n"):
-        orga = False
-        print(f"You asked for the number of stars of {name} (github user)")
-
-    else:
-        print("Type yes or no")
-
-    return name, orga
-
-
-def count(name: str, orga: bool):
-    """
-    display the total number of stars in a rich print in the console
-
-    returns: print statements
-    """
     print("-" * 80)
-    rich.print(get_num_stars(name, orga), " stars in total (all repository). ")
+
+    rich.print((f"{total_starcount} stars in total "
+        f"(all repository from {target_account}). "))
+
     print("-" * 80)
     rich.print("Impressive, isn't it ? Hope to see you soon :)")
 
 
 if __name__ == "__main__":
-    name_search, orga_status = ask_prompt()
-    count(name_search, orga_status)
+    main_starcount()
