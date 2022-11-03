@@ -1,9 +1,5 @@
 """
-    unit test module for the functions in the cli module used to prompt a
-    search for the number of stars in a specific repo by the user of this
-    package.
+    unit test module for the functions in count_stars
+    used to prompt a search for the number of stars in a specific repo
+    by the user.
 """
-from .count_stars import ex_func, get_num_stars, get_org_soup
-from .count_stars import get_repo_number_pages
-
-

@@ -21,46 +21,60 @@ def get_user_name_token():
         )
     )
 
-    response = requests.get('https://api.github.com', auth= ( username , token ))
+    response = requests.get(
+        "https://api.github.com", auth=(username, token), timeout=10
+    )
 
-    if response.status_code == requests.codes.ok :
-        return username, token
-    else:
-        raise Exception("Invalid token or username")
+    # known linting false positive for dynamically generated members
+    if response.status_code == requests.codes.ok:  # pylint: disable=no-member
+        return token
 
-def create_github_instance(token:str):
+    raise Exception("Invalid token or username")
+
+
+def create_github_instance(token: str):
     """
     Instanciate github object for querying github
     """
     gh_object = Github(token)
     return gh_object
 
+
 def get_target_starcount(gh_object):
     """
     Prompt user for github account of interest
     """
-    target_account = input(("Whose stars do you want to count ? "
-        "(target github username, including your own) : "))
+    target_account = input(
+        (
+            "Whose stars do you want to count ? "
+            "(target github username, including your own) : "
+        )
+    )
     total_stars = []
     for repo in gh_object.get_user(target_account).get_repos():
         number_stars_per_repo = repo.stargazers_count
-        total_stars.append(number_stars_per_repo) 
-        
+        total_stars.append(number_stars_per_repo)
+
     total = sum(total_stars)
     return total, target_account
+
 
 def main_starcount():
     """
     main function for total star count of a target user
     """
-    username, token = get_user_name_token()
+    token = get_user_name_token()
     gh_instance = create_github_instance(token)
     total_starcount, target_account = get_target_starcount(gh_instance)
 
     print("-" * 80)
 
-    rich.print((f"{total_starcount} stars in total "
-        f"(all repository from {target_account}). "))
+    rich.print(
+        (
+            f"{total_starcount} stars in total "
+            f"(all repository from {target_account}). "
+        )
+    )
 
     print("-" * 80)
     rich.print("Impressive, isn't it ? Hope to see you soon :)")
