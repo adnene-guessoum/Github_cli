@@ -45,4 +45,4 @@ tasks:
   generate-changelog:
     desc: Generates the changelog
     cmds:
-      - poetry run git-changelog --output CHANGELOG.md
+      - poetry run git-changelog --output CHANGELOG.md .

@@ -122,3 +122,51 @@ jobs:
 
       - name: Upload docs to the gh-pages branch
         run: task docs-publish
+
+
+  publish:
+    needs: [test-publish]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install Task
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade poetry pip
+          ./bin/task install
+
+      - name: Build packages for release
+        run: |
+          ./bin/task build
+
+      - name: Save packages as artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+          if-no-files-found: error
+
+      - name: Publish distribution to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_NON_INTERACTIVE: 1
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: poetry run twine upload --skip-existing --verbose 'dist/*'
+
