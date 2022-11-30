@@ -25,3 +25,9 @@ and pypi deployment.
 Print out details about yourself, a user or organization. 
 
 Allow for output in JSON.
+
+- project infos:
+
+Source Code: https://github.com/adnene-guessoum/Github_cli
+
+Documentation: https://adnene-guessoum.github.io/Github_cli/
