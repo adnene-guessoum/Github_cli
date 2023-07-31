@@ -1,6 +1,6 @@
-name: Python package 
+name: Python package
 
-on: [push, pull_request] 
+on: [push, pull_request]
 
 jobs:
   build:
@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       fail-fast: true
-      matrix: 
+      matrix:
         python-version: ["3.10"]
 
     steps:
@@ -22,7 +22,7 @@ jobs:
             # Load our cached dependencies to speed things up.
             # You will get more motivation for this extra stuff
             # one you waited minutes.
-            
+
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -31,7 +31,6 @@ jobs:
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Task
-        # TODO
         run: |
           sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
@@ -166,4 +165,3 @@ jobs:
           TWINE_NON_INTERACTIVE: 1
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: poetry run twine upload --verbose 'dist/*'
-
