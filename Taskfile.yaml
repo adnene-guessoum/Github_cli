@@ -16,7 +16,7 @@ tasks:
 
   test:
     desc: Runs test on code
-    cmds: 
+    cmds:
       - >
         poetry run pytest
         --cov=gh_star_count
